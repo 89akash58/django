@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qcq6%@-u7%=9eef9_z#r2ndnlle3vw1_x*a!jr+b!h@ylbmg%q'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [config("ALLOWED_HOSTS").split(',')]
 
 
 # Application definition
@@ -108,7 +109,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-DATABASES['default']=dj_database_url.parse('postgresql://postgre_wk13_user:YExG21GHmTFWflzOig4a9F4RoR3mVqoo@dpg-cruh9h0gph6c73aidkrg-a.oregon-postgres.render.com/postgre_wk13')
+DATABASES['default']=dj_database_url.parse(config('DATABASES_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
